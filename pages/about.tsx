@@ -101,7 +101,9 @@ export async function getStaticProps() {
 	const init = await fetch('https://www.vinted.fr/')
 	const cookie : string = await init.headers.get('set-cookie') as string
 	const auth = cookieParse.parse(cookie)['secure, _vinted_fr_session'];
+	console.log(auth);
 	let res = await fetch('https://www.vinted.fr/api/v2/users/71550545/items?per_page=96&page=1', {headers: {cookie: '_vinted_fr_session=' + auth}});
+	console.log(res.status);
 	let posts = await res.json()
 	const pagination : Pagination = getPagination(posts);
 	let all : Article[] = getArticles(posts);
