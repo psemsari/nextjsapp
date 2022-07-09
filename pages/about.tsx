@@ -99,6 +99,8 @@ export async function getStaticProps() {
 	// Call an external API endpoint to get posts.
 	// You can use any data fetching library
 	const init = await fetch('https://www.vinted.fr/')
+	console.log(init.status)
+	console.log(init.headers.get('set-cookie'))
 	const cookie : string = await init.headers.get('set-cookie') as string
 	const auth = cookieParse.parse(cookie)['secure, _vinted_fr_session'];
 	console.log(auth);
