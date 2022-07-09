@@ -1,4 +1,5 @@
 const UserAgent = require('user-agents');
+const fetchs = require('node-fetch');
 const cookieParse = require('cookie');
 const { HttpsProxyAgent } = require('https-proxy-agent');
 import { ChakraProvider } from '@chakra-ui/react'
@@ -101,8 +102,10 @@ export async function getStaticProps() {
 	// Call an external API endpoint to get posts.
 	// You can use any data fetching library
 	const controller = new AbortController();
-	//const agent = new HttpsProxyAgent("https://51.195.76.214:3128")
-	const init = await fetch('https://www.vinted.fr/', {
+	const agent = new HttpsProxyAgent("https://51.195.76.214:3128")
+	console.log(agent);
+	const init = await fetchs('https://www.vinted.fr/', {
+		agent,
 		signal: controller.signal,
 		headers: {
 			'user-agent': new UserAgent().toString()
