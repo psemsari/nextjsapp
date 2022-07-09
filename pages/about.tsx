@@ -1,4 +1,6 @@
+const UserAgent = require('user-agents');
 const cookieParse = require('cookie');
+const { HttpsProxyAgent } = require('https-proxy-agent');
 import { ChakraProvider } from '@chakra-ui/react'
 
 function About(props: {all: Article[]})
@@ -98,7 +100,14 @@ function getPagination(posts: any)
 export async function getStaticProps() {
 	// Call an external API endpoint to get posts.
 	// You can use any data fetching library
-	const init = await fetch('https://www.vinted.fr/')
+	const controller = new AbortController();
+	//const agent = new HttpsProxyAgent("https://51.195.76.214:3128")
+	const init = await fetch('https://www.vinted.fr/', {
+		signal: controller.signal,
+		headers: {
+			'user-agent': new UserAgent().toString()
+		}
+	})
 	console.log(init.status)
 	console.log(init.headers.get('set-cookie'))
 	const cookie : string = await init.headers.get('set-cookie') as string
